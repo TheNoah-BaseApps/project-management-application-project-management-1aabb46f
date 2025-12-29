@@ -139,34 +139,48 @@ export async function POST(request, { params }) {
       data: result.rows[0],
     });
   } catch (error) {
+    // Log comprehensive error details for debugging
     console.error('Approve budget item error:', error);
     console.error('Error details:', {
       message: error.message,
-      stack: error.stack,
       code: error.code,
       detail: error.detail,
+      hint: error.hint,
+      stack: error.stack,
     });
-    
-    // Handle specific database errors
-    if (error.code === '42703') {
-      return NextResponse.json(
-        { success: false, error: 'Database schema error: Column does not exist' },
-        { status: 500 }
-      );
+
+    // Extract user role from JWT token for role-based error transparency
+    let userRole = null;
+    try {
+      const authHeader = request.headers.get('authorization');
+      if (authHeader) {
+        const token = authHeader.substring(7);
+        const payload = await verifyToken(token);
+        userRole = payload?.role;
+      }
+    } catch (tokenError) {
+      console.error('Error extracting user role:', tokenError);
     }
-    
-    if (error.code === '42P01') {
-      return NextResponse.json(
-        { success: false, error: 'Database schema error: Table does not exist' },
-        { status: 500 }
-      );
+
+    // Role-based error transparency:
+    // Admin users receive detailed error information for debugging
+    // Non-admin users receive generic error messages for security
+    let errorResponse;
+    if (userRole === 'admin') {
+      errorResponse = {
+        message: error.message,
+        code: error.code,
+        detail: error.detail,
+        hint: error.hint,
+      };
+    } else {
+      errorResponse = 'Failed to approve budget item';
     }
 
     return NextResponse.json(
       { 
         success: false, 
-        error: 'Failed to approve budget item',
-        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        error: errorResponse
       },
       { status: 500 }
     );
