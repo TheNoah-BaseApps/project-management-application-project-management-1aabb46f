@@ -14,6 +14,8 @@ import {
   ChevronRight,
   Network,
   Flag,
+  CheckCircle,
+  FolderPlus,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -28,6 +30,8 @@ const menuItems = [
   { icon: Users, label: 'Resource Allocations', href: '/resource-allocations' },
   { icon: FileText, label: 'Scope Definitions', href: '/scope-definitions' },
   { icon: Users, label: 'Stakeholders', href: '/stakeholders' },
+  { icon: CheckCircle, label: 'Task Assignments', href: '/task-assignments' },
+  { icon: FolderPlus, label: 'Project Initiations', href: '/project-initiations' },
 ];
 
 export default function Sidebar() {

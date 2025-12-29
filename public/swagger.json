@@ -377,6 +377,262 @@
         }
       }
     },
+    "/api/project-initiations/{id}": {
+      "get": {
+        "summary": "Get a specific project initiation",
+        "description": "Retrieve a single project initiation by ID",
+        "tags": [
+          "Project Initiations"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Project initiation ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project initiation details"
+          },
+          "404": {
+            "description": "Project initiation not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a project initiation",
+        "description": "Update an existing project initiation",
+        "tags": [
+          "Project Initiations"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Project initiation ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project initiation updated successfully"
+          },
+          "404": {
+            "description": "Project initiation not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a project initiation",
+        "description": "Delete a project initiation by ID",
+        "tags": [
+          "Project Initiations"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Project initiation ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project initiation deleted successfully"
+          },
+          "404": {
+            "description": "Project initiation not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/project-initiations": {
+      "get": {
+        "summary": "Get all project initiations",
+        "description": "Retrieve all project initiation records with optional filtering",
+        "tags": [
+          "Project Initiations"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "approval_status",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by approval status"
+          },
+          {
+            "in": "query",
+            "name": "project_type",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by project type"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 100
+            },
+            "description": "Number of records to return"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Number of records to skip"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of project initiations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new project initiation",
+        "description": "Create a new project initiation record",
+        "tags": [
+          "Project Initiations"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "project_id",
+                  "project_name",
+                  "business_case",
+                  "project_sponsor",
+                  "initiation_date",
+                  "project_type",
+                  "priority",
+                  "approval_status"
+                ],
+                "properties": {
+                  "project_id": {
+                    "type": "string"
+                  },
+                  "project_name": {
+                    "type": "string"
+                  },
+                  "business_case": {
+                    "type": "string"
+                  },
+                  "project_sponsor": {
+                    "type": "string"
+                  },
+                  "initiation_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "project_type": {
+                    "type": "string"
+                  },
+                  "priority": {
+                    "type": "string"
+                  },
+                  "success_criteria": {
+                    "type": "string"
+                  },
+                  "constraints": {
+                    "type": "string"
+                  },
+                  "assumptions": {
+                    "type": "string"
+                  },
+                  "high_level_risks": {
+                    "type": "string"
+                  },
+                  "estimated_duration": {
+                    "type": "integer"
+                  },
+                  "estimated_budget": {
+                    "type": "integer"
+                  },
+                  "approval_status": {
+                    "type": "string"
+                  },
+                  "intake_form_version": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project initiation created successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
     "/api/project-milestones/{id}": {
       "get": {
         "summary": "Get milestone by ID",
@@ -1202,132 +1458,6 @@
         }
       }
     },
-    "/api/scope-definitions": {
-      "get": {
-        "summary": "Get all scope definitions",
-        "description": "Retrieve all scope definitions with optional filtering by project",
-        "tags": [
-          "Scope Definitions"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "project_id",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "description": "Filter by project ID"
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "type": "integer",
-              "default": 50
-            },
-            "description": "Maximum number of records to return"
-          },
-          {
-            "in": "query",
-            "name": "offset",
-            "schema": {
-              "type": "integer",
-              "default": 0
-            },
-            "description": "Number of records to skip"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of scope definitions",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      },
-      "post": {
-        "summary": "Create a new scope definition",
-        "description": "Create a new scope definition for a project",
-        "tags": [
-          "Scope Definitions"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "project_id",
-                  "scope_statement"
-                ],
-                "properties": {
-                  "project_id": {
-                    "type": "string",
-                    "format": "uuid"
-                  },
-                  "scope_statement": {
-                    "type": "string"
-                  },
-                  "in_scope_items": {
-                    "type": "string"
-                  },
-                  "out_of_scope_items": {
-                    "type": "string"
-                  },
-                  "acceptance_criteria": {
-                    "type": "string"
-                  },
-                  "assumptions": {
-                    "type": "string"
-                  },
-                  "constraints": {
-                    "type": "string"
-                  },
-                  "deliverables": {
-                    "type": "string"
-                  },
-                  "exclusions": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Scope definition created successfully"
-          },
-          "400": {
-            "description": "Invalid request body"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
     "/api/stakeholders/{id}": {
       "get": {
         "summary": "Get a stakeholder by ID",
@@ -1790,6 +1920,265 @@
         "responses": {
           "201": {
             "description": "Status report created successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/task-assignments/{id}": {
+      "get": {
+        "summary": "Get a specific task assignment",
+        "description": "Retrieve a single task assignment by ID",
+        "tags": [
+          "Task Assignments"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Task assignment ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task assignment details"
+          },
+          "404": {
+            "description": "Task assignment not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a task assignment",
+        "description": "Update an existing task assignment",
+        "tags": [
+          "Task Assignments"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Task assignment ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task assignment updated successfully"
+          },
+          "404": {
+            "description": "Task assignment not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a task assignment",
+        "description": "Delete a task assignment by ID",
+        "tags": [
+          "Task Assignments"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Task assignment ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task assignment deleted successfully"
+          },
+          "404": {
+            "description": "Task assignment not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/task-assignments": {
+      "get": {
+        "summary": "Get all task assignments",
+        "description": "Retrieve all task assignments with optional filtering",
+        "tags": [
+          "Task Assignments"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by status"
+          },
+          {
+            "in": "query",
+            "name": "assigned_to",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by assigned person"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 100
+            },
+            "description": "Number of records to return"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Number of records to skip"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of task assignments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new task assignment",
+        "description": "Create a new task assignment record",
+        "tags": [
+          "Task Assignments"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "task_id",
+                  "task_name",
+                  "assigned_to",
+                  "planned_start_date",
+                  "planned_end_date",
+                  "status",
+                  "priority"
+                ],
+                "properties": {
+                  "task_id": {
+                    "type": "string"
+                  },
+                  "task_name": {
+                    "type": "string"
+                  },
+                  "assigned_to": {
+                    "type": "string"
+                  },
+                  "planned_start_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "planned_end_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "actual_start_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "actual_end_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "completion_percentage": {
+                    "type": "integer"
+                  },
+                  "priority": {
+                    "type": "string"
+                  },
+                  "dependencies": {
+                    "type": "string"
+                  },
+                  "estimated_effort": {
+                    "type": "integer"
+                  },
+                  "actual_effort": {
+                    "type": "integer"
+                  },
+                  "blockers": {
+                    "type": "string"
+                  },
+                  "last_updated_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task assignment created successfully"
           },
           "400": {
             "description": "Invalid input"
