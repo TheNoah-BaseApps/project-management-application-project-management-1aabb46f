@@ -16,6 +16,8 @@ import {
   Flag,
   CheckCircle,
   FolderPlus,
+  MessageSquare,
+  Zap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -32,6 +34,8 @@ const menuItems = [
   { icon: Users, label: 'Stakeholders', href: '/stakeholders' },
   { icon: CheckCircle, label: 'Task Assignments', href: '/task-assignments' },
   { icon: FolderPlus, label: 'Project Initiations', href: '/project-initiations' },
+  { icon: MessageSquare, label: 'Communication Plans', href: '/communication-plans' },
+  { icon: Zap, label: 'Agile Sprints', href: '/agile-sprints' },
 ];
 
 export default function Sidebar() {

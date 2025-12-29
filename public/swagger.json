@@ -30,6 +30,258 @@
   },
   "security": [],
   "paths": {
+    "/api/agile-sprints/{id}": {
+      "get": {
+        "summary": "Get an agile sprint by ID",
+        "tags": [
+          "Agile Sprints"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agile sprint retrieved successfully"
+          },
+          "404": {
+            "description": "Agile sprint not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an agile sprint",
+        "tags": [
+          "Agile Sprints"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agile sprint updated successfully"
+          },
+          "404": {
+            "description": "Agile sprint not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an agile sprint",
+        "tags": [
+          "Agile Sprints"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agile sprint deleted successfully"
+          },
+          "404": {
+            "description": "Agile sprint not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/agile-sprints": {
+      "get": {
+        "summary": "Get all agile sprints",
+        "description": "Retrieve all agile sprints with optional filtering by project_id",
+        "tags": [
+          "Agile Sprints"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "project_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Filter by project ID"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 50
+            },
+            "description": "Maximum number of records to return"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Number of records to skip"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of agile sprints retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new agile sprint",
+        "description": "Create a new agile sprint record",
+        "tags": [
+          "Agile Sprints"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "project_id",
+                  "sprint_id",
+                  "sprint_name",
+                  "start_date",
+                  "end_date",
+                  "sprint_goal",
+                  "scrum_master",
+                  "product_owner"
+                ],
+                "properties": {
+                  "project_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "sprint_id": {
+                    "type": "string"
+                  },
+                  "sprint_name": {
+                    "type": "string"
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "sprint_goal": {
+                    "type": "string"
+                  },
+                  "velocity": {
+                    "type": "integer"
+                  },
+                  "actual_velocity": {
+                    "type": "integer"
+                  },
+                  "daily_scrum_time": {
+                    "type": "string"
+                  },
+                  "scrum_master": {
+                    "type": "string"
+                  },
+                  "product_owner": {
+                    "type": "string"
+                  },
+                  "committed_user_stories": {
+                    "type": "string"
+                  },
+                  "completed_user_stories": {
+                    "type": "string"
+                  },
+                  "carry_over_items": {
+                    "type": "string"
+                  },
+                  "sprint_retrospective_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "impediments": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Agile sprint created successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
     "/api/analytics/budget-summary": {
       "get": {
         "summary": "Get budget analytics summary",
@@ -276,6 +528,256 @@
         "responses": {
           "200": {
             "description": "Budget item deleted"
+          }
+        }
+      }
+    },
+    "/api/communication-plans/{id}": {
+      "get": {
+        "summary": "Get a communication plan by ID",
+        "tags": [
+          "Communication Plans"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Communication plan retrieved successfully"
+          },
+          "404": {
+            "description": "Communication plan not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a communication plan",
+        "tags": [
+          "Communication Plans"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Communication plan updated successfully"
+          },
+          "404": {
+            "description": "Communication plan not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a communication plan",
+        "tags": [
+          "Communication Plans"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Communication plan deleted successfully"
+          },
+          "404": {
+            "description": "Communication plan not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/communication-plans": {
+      "get": {
+        "summary": "Get all communication plans",
+        "description": "Retrieve all communication plans with optional filtering by project_id",
+        "tags": [
+          "Communication Plans"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "project_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Filter by project ID"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 50
+            },
+            "description": "Maximum number of records to return"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Number of records to skip"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of communication plans retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new communication plan",
+        "description": "Create a new communication plan record",
+        "tags": [
+          "Communication Plans"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "project_id",
+                  "communication_plan_id",
+                  "audience",
+                  "message",
+                  "frequency",
+                  "channel",
+                  "owner"
+                ],
+                "properties": {
+                  "project_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "communication_plan_id": {
+                    "type": "string"
+                  },
+                  "audience": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "frequency": {
+                    "type": "string"
+                  },
+                  "channel": {
+                    "type": "string"
+                  },
+                  "owner": {
+                    "type": "string"
+                  },
+                  "last_sent_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "next_send_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "feedback_mechanism": {
+                    "type": "string"
+                  },
+                  "success_metrics": {
+                    "type": "string"
+                  },
+                  "escalation_path": {
+                    "type": "string"
+                  },
+                  "language_requirements": {
+                    "type": "string"
+                  },
+                  "confidentiality_level": {
+                    "type": "string"
+                  },
+                  "approval_required": {
+                    "type": "boolean"
+                  },
+                  "template_used": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Communication plan created successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart3, CheckCircle, DollarSign, FolderKanban, FileText, Users, Network, Flag, FolderPlus } from 'lucide-react';
+import { BarChart3, CheckCircle, DollarSign, FolderKanban, FileText, Users, Network, Flag, FolderPlus, MessageSquare, Zap } from 'lucide-react';
 
 export default function HomePage() {
   const router = useRouter();
@@ -174,6 +174,26 @@ export default function HomePage() {
                 <CardTitle>Project Initiations</CardTitle>
                 <CardDescription>
                   Manage project intake requests and approval workflows
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <MessageSquare className="h-10 w-10 text-blue-500 mb-2" />
+                <CardTitle>Communication Plans</CardTitle>
+                <CardDescription>
+                  Manage stakeholder communication strategies and engagement
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <Zap className="h-10 w-10 text-yellow-600 mb-2" />
+                <CardTitle>Agile Sprint Planning</CardTitle>
+                <CardDescription>
+                  Track sprint planning, velocity, and daily scrum execution
                 </CardDescription>
               </CardHeader>
             </Card>
