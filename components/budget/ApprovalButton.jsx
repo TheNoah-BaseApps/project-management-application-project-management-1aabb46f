@@ -5,12 +5,14 @@ import { Button } from '@/components/ui/button';
 import ConfirmModal from '@/components/shared/ConfirmModal';
 import { CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
-import { usePermissions } from '@/lib/permissions';
+import { usePermissions } from '@/lib/permissions.client';
+import { useAuth } from '@/lib/auth';
 
 export default function ApprovalButton({ budgetItemId, onApproved }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { canApprove } = usePermissions();
+  const { user } = useAuth();
+  const { canApprove } = usePermissions(user);
 
   if (!canApprove()) {
     return null;

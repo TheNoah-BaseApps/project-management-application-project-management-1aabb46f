@@ -4,9 +4,11 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User } from 'lucide-react';
+import { usePermissions } from '@/lib/permissions.client';
 
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, user }) {
   const router = useRouter();
+  const { canEdit, canDelete } = usePermissions(user);
 
   const getStatusColor = (status) => {
     switch (status) {

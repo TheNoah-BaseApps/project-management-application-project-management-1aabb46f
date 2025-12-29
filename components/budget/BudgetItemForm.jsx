@@ -15,6 +15,7 @@ import {
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { usePermissions } from '@/lib/permissions.client';
 
 const categories = [
   'Personnel',
@@ -36,9 +37,10 @@ const fundingSources = [
   'Other',
 ];
 
-export default function BudgetItemForm({ projectId, onSuccess }) {
+export default function BudgetItemForm({ projectId, onSuccess, user }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { canEdit } = usePermissions(user);
   const [formData, setFormData] = useState({
     budget_item_id: '',
     category: '',
@@ -53,6 +55,12 @@ export default function BudgetItemForm({ projectId, onSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!canEdit) {
+      toast.error('You do not have permission to create budget items');
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
@@ -87,6 +95,17 @@ export default function BudgetItemForm({ projectId, onSuccess }) {
       setLoading(false);
     }
   };
+
+  if (!canEdit) {
+    return (
+      <Alert>
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>
+          You do not have permission to create budget items.
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">

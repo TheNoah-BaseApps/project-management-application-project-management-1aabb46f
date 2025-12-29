@@ -17,10 +17,14 @@ import ConfirmModal from '@/components/shared/ConfirmModal';
 import { Trash2, Edit } from 'lucide-react';
 import { formatCurrency } from '@/lib/calculations';
 import { toast } from 'sonner';
+import { usePermissions } from '@/lib/permissions.client';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function BudgetTable({ budgetItems, onUpdate }) {
   const [deleteId, setDeleteId] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const { user } = useAuth();
+  const { canEdit, canDelete, canApprove } = usePermissions(user);
 
   const handleDelete = async () => {
     setDeleting(true);
@@ -93,16 +97,18 @@ export default function BudgetTable({ budgetItems, onUpdate }) {
                 <TableCell>{getApprovalBadge(item.approval_status)}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex items-center justify-end gap-2">
-                    {item.approval_status === 'pending' && (
+                    {canApprove && item.approval_status === 'pending' && (
                       <ApprovalButton budgetItemId={item.id} onApproved={onUpdate} />
                     )}
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setDeleteId(item.id)}
-                    >
-                      <Trash2 className="h-4 w-4 text-red-600" />
-                    </Button>
+                    {canDelete && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setDeleteId(item.id)}
+                      >
+                        <Trash2 className="h-4 w-4 text-red-600" />
+                      </Button>
+                    )}
                   </div>
                 </TableCell>
               </TableRow>

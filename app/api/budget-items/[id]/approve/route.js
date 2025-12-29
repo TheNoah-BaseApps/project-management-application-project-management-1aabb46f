@@ -30,7 +30,7 @@
 import { NextResponse } from 'next/server';
 import { verifyToken } from '@/lib/jwt';
 import { query } from '@/lib/database';
-import { canApprove } from '@/lib/permissions';
+import { canApprove } from '@/lib/permissions.server';
 import { logAudit } from '@/lib/audit';
 
 export async function POST(request, { params }) {

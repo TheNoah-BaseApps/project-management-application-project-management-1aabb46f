@@ -5,12 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
-import { User, Mail, Shield, Calendar, AlertCircle } from 'lucide-react';
+import { User, Mail, Shield, Calendar, AlertCircle, Lock } from 'lucide-react';
+import { usePermissions } from '@/lib/permissions.client';
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
+  const { getPermissionLevel, hasRole } = usePermissions(user);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -79,6 +81,38 @@ export default function ProfilePage() {
     }
   };
 
+  const getPermissionLevelBadgeColor = (level) => {
+    switch (level) {
+      case 4:
+        return 'bg-purple-100 text-purple-800';
+      case 3:
+        return 'bg-blue-100 text-blue-800';
+      case 2:
+        return 'bg-green-100 text-green-800';
+      case 1:
+        return 'bg-gray-100 text-gray-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getPermissionLevelText = (level) => {
+    switch (level) {
+      case 4:
+        return 'Full Access';
+      case 3:
+        return 'Management Access';
+      case 2:
+        return 'Standard Access';
+      case 1:
+        return 'Read Only';
+      default:
+        return 'No Access';
+    }
+  };
+
+  const permissionLevel = getPermissionLevel();
+
   return (
     <div>
       <h1 className="text-3xl font-bold mb-8">Profile</h1>
@@ -122,6 +156,16 @@ export default function ProfilePage() {
                   <p className="text-sm text-gray-600">Role</p>
                   <Badge className={getRoleBadgeColor(user?.role)}>
                     {user?.role?.replace('_', ' ').toUpperCase()}
+                  </Badge>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Lock className="h-5 w-5 text-gray-500" />
+                <div>
+                  <p className="text-sm text-gray-600">Permission Level</p>
+                  <Badge className={getPermissionLevelBadgeColor(permissionLevel)}>
+                    {getPermissionLevelText(permissionLevel)}
                   </Badge>
                 </div>
               </div>
