@@ -137,6 +137,26 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
             </Card>
+
+            <Card>
+              <CardHeader>
+                <FileText className="h-10 w-10 text-amber-600 mb-2" />
+                <CardTitle>Scope Definitions</CardTitle>
+                <CardDescription>
+                  Define and approve project scope with change tracking
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <Users className="h-10 w-10 text-cyan-600 mb-2" />
+                <CardTitle>Stakeholders</CardTitle>
+                <CardDescription>
+                  Identify and manage stakeholder engagement strategies
+                </CardDescription>
+              </CardHeader>
+            </Card>
           </div>
 
           <div className="bg-white rounded-lg shadow-lg p-8">

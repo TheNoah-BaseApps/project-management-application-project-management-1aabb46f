@@ -1106,6 +1106,458 @@
         }
       }
     },
+    "/api/scope-definitions/{id}": {
+      "get": {
+        "summary": "Get a scope definition by ID",
+        "tags": [
+          "Scope Definitions"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scope definition details"
+          },
+          "404": {
+            "description": "Scope definition not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a scope definition",
+        "tags": [
+          "Scope Definitions"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scope definition updated successfully"
+          },
+          "404": {
+            "description": "Scope definition not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a scope definition",
+        "tags": [
+          "Scope Definitions"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scope definition deleted successfully"
+          },
+          "404": {
+            "description": "Scope definition not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/scope-definitions": {
+      "get": {
+        "summary": "Get all scope definitions",
+        "description": "Retrieve all scope definitions with optional filtering by project",
+        "tags": [
+          "Scope Definitions"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "project_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Filter by project ID"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 50
+            },
+            "description": "Maximum number of records to return"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Number of records to skip"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of scope definitions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new scope definition",
+        "description": "Create a new scope definition for a project",
+        "tags": [
+          "Scope Definitions"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "project_id",
+                  "scope_statement"
+                ],
+                "properties": {
+                  "project_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "scope_statement": {
+                    "type": "string"
+                  },
+                  "in_scope_items": {
+                    "type": "string"
+                  },
+                  "out_of_scope_items": {
+                    "type": "string"
+                  },
+                  "acceptance_criteria": {
+                    "type": "string"
+                  },
+                  "assumptions": {
+                    "type": "string"
+                  },
+                  "constraints": {
+                    "type": "string"
+                  },
+                  "deliverables": {
+                    "type": "string"
+                  },
+                  "exclusions": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Scope definition created successfully"
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/stakeholders/{id}": {
+      "get": {
+        "summary": "Get a stakeholder by ID",
+        "tags": [
+          "Stakeholders"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stakeholder details"
+          },
+          "404": {
+            "description": "Stakeholder not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a stakeholder",
+        "tags": [
+          "Stakeholders"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stakeholder updated successfully"
+          },
+          "404": {
+            "description": "Stakeholder not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a stakeholder",
+        "tags": [
+          "Stakeholders"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stakeholder deleted successfully"
+          },
+          "404": {
+            "description": "Stakeholder not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/stakeholders": {
+      "get": {
+        "summary": "Get all stakeholders",
+        "description": "Retrieve all stakeholders with optional filtering by project",
+        "tags": [
+          "Stakeholders"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "project_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Filter by project ID"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 50
+            },
+            "description": "Maximum number of records to return"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Number of records to skip"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of stakeholders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new stakeholder",
+        "description": "Create a new stakeholder for a project",
+        "tags": [
+          "Stakeholders"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "project_id",
+                  "stakeholder_id",
+                  "name",
+                  "role",
+                  "influence_level",
+                  "interest_level"
+                ],
+                "properties": {
+                  "project_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "stakeholder_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  },
+                  "department": {
+                    "type": "string"
+                  },
+                  "influence_level": {
+                    "type": "string",
+                    "enum": [
+                      "High",
+                      "Medium",
+                      "Low"
+                    ]
+                  },
+                  "interest_level": {
+                    "type": "string",
+                    "enum": [
+                      "High",
+                      "Medium",
+                      "Low"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Stakeholder created successfully"
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
     "/api/status-reports/{id}": {
       "get": {
         "summary": "Get a specific status report",

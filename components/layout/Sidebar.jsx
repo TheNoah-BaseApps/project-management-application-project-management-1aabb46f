@@ -26,6 +26,8 @@ const menuItems = [
   { icon: FileText, label: 'Audit Logs', href: '/audit-logs' },
   { icon: FileText, label: 'Status Reports', href: '/status-reports' },
   { icon: Users, label: 'Resource Allocations', href: '/resource-allocations' },
+  { icon: FileText, label: 'Scope Definitions', href: '/scope-definitions' },
+  { icon: Users, label: 'Stakeholders', href: '/stakeholders' },
 ];
 
 export default function Sidebar() {
