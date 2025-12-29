@@ -9,6 +9,7 @@ import {
   FolderKanban,
   BarChart3,
   FileText,
+  Users,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
@@ -19,6 +20,8 @@ const menuItems = [
   { icon: FolderKanban, label: 'Projects', href: '/projects' },
   { icon: BarChart3, label: 'Analytics', href: '/analytics' },
   { icon: FileText, label: 'Audit Logs', href: '/audit-logs' },
+  { icon: FileText, label: 'Status Reports', href: '/status-reports' },
+  { icon: Users, label: 'Resource Allocations', href: '/resource-allocations' },
 ];
 
 export default function Sidebar() {
