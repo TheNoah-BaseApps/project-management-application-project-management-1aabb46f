@@ -53,20 +53,58 @@ export async function POST(request, { params }) {
       );
     }
 
-    const body = await request.json();
-    const { approval_status } = body;
-
-    if (!['approved', 'rejected'].includes(approval_status)) {
+    // Validate params.id exists
+    if (!params?.id) {
       return NextResponse.json(
-        { success: false, error: 'Invalid approval status' },
+        { success: false, error: 'Budget item ID is required' },
         { status: 400 }
       );
     }
 
+    // Validate UUID format
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(params.id)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid budget item ID format' },
+        { status: 400 }
+      );
+    }
+
+    const body = await request.json();
+    const { approval_status } = body;
+
+    if (!approval_status) {
+      return NextResponse.json(
+        { success: false, error: 'Approval status is required' },
+        { status: 400 }
+      );
+    }
+
+    if (!['approved', 'rejected'].includes(approval_status)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid approval status. Must be "approved" or "rejected"' },
+        { status: 400 }
+      );
+    }
+
+    // First check if the budget item exists
+    const checkResult = await query(
+      'SELECT id FROM budget_items WHERE id = $1',
+      [params.id]
+    );
+
+    if (checkResult.rows.length === 0) {
+      return NextResponse.json(
+        { success: false, error: 'Budget item not found' },
+        { status: 404 }
+      );
+    }
+
+    // Update the budget item with proper SQL syntax
     const result = await query(
       `UPDATE budget_items 
-       SET approval_status = $1, 
-           approved_by = $2, 
+       SET approval_status = $1,
+           approved_by = $2,
            approval_date = NOW(),
            last_review_date = NOW(),
            updated_at = NOW()
@@ -77,18 +115,24 @@ export async function POST(request, { params }) {
 
     if (result.rows.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Budget item not found' },
-        { status: 404 }
+        { success: false, error: 'Failed to update budget item' },
+        { status: 500 }
       );
     }
 
-    await logAudit({
-      entity_type: 'budget_item',
-      entity_id: params.id,
-      user_id: payload.id,
-      action: 'approve',
-      changes: { approval_status },
-    });
+    // Log audit trail
+    try {
+      await logAudit({
+        entity_type: 'budget_item',
+        entity_id: params.id,
+        user_id: payload.id,
+        action: 'approve',
+        changes: { approval_status },
+      });
+    } catch (auditError) {
+      console.error('Audit logging error:', auditError);
+      // Don't fail the request if audit logging fails
+    }
 
     return NextResponse.json({
       success: true,
@@ -96,8 +140,34 @@ export async function POST(request, { params }) {
     });
   } catch (error) {
     console.error('Approve budget item error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      code: error.code,
+      detail: error.detail,
+    });
+    
+    // Handle specific database errors
+    if (error.code === '42703') {
+      return NextResponse.json(
+        { success: false, error: 'Database schema error: Column does not exist' },
+        { status: 500 }
+      );
+    }
+    
+    if (error.code === '42P01') {
+      return NextResponse.json(
+        { success: false, error: 'Database schema error: Table does not exist' },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
-      { success: false, error: 'Failed to approve budget item' },
+      { 
+        success: false, 
+        error: 'Failed to approve budget item',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      },
       { status: 500 }
     );
   }
