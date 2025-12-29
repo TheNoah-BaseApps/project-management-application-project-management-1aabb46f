@@ -19,6 +19,13 @@ export default function ApprovalButton({ budgetItemId, onApproved }) {
   const handleApprove = async () => {
     setLoading(true);
     try {
+      console.log('Approve request initiated:', {
+        budgetItemId,
+        endpoint: `/api/budget-items/${budgetItemId}/approve`,
+        method: 'POST',
+        body: { approval_status: 'approved' }
+      });
+
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/budget-items/${budgetItemId}/approve`, {
         method: 'POST',
@@ -29,11 +36,25 @@ export default function ApprovalButton({ budgetItemId, onApproved }) {
         body: JSON.stringify({ approval_status: 'approved' }),
       });
 
+      console.log('Approve response status:', {
+        status: response.status,
+        ok: response.ok,
+        statusText: response.statusText
+      });
+
+      const data = await response.json();
+      console.log('Approve response body:', data);
+
       if (!response.ok) {
-        const data = await response.json();
+        console.error('Approve error response:', {
+          status: response.status,
+          error: data.error,
+          fullResponse: data
+        });
         throw new Error(data.error || 'Failed to approve budget item');
       }
 
+      console.log('Approve success response:', data);
       toast.success('Budget item approved successfully');
       setShowConfirm(false);
       onApproved();
