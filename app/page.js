@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart3, CheckCircle, DollarSign, FolderKanban, FileText, Users } from 'lucide-react';
+import { BarChart3, CheckCircle, DollarSign, FolderKanban, FileText, Users, Network, Flag } from 'lucide-react';
 
 export default function HomePage() {
   const router = useRouter();
@@ -114,6 +114,26 @@ export default function HomePage() {
                 <CardTitle>Resource Allocations</CardTitle>
                 <CardDescription>
                   Manage resource assignments and track utilization
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <Network className="h-10 w-10 text-teal-600 mb-2" />
+                <CardTitle>WBS Elements</CardTitle>
+                <CardDescription>
+                  Hierarchical breakdown of project work and tasks
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <Flag className="h-10 w-10 text-pink-600 mb-2" />
+                <CardTitle>Timeline & Milestones</CardTitle>
+                <CardDescription>
+                  Track project timeline and milestone planning
                 </CardDescription>
               </CardHeader>
             </Card>

@@ -12,6 +12,8 @@ import {
   Users,
   ChevronLeft,
   ChevronRight,
+  Network,
+  Flag,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -19,6 +21,8 @@ const menuItems = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
   { icon: FolderKanban, label: 'Projects', href: '/projects' },
   { icon: BarChart3, label: 'Analytics', href: '/analytics' },
+  { icon: Network, label: 'WBS Elements', href: '/wbs-elements' },
+  { icon: Flag, label: 'Timeline & Milestones', href: '/project-milestones' },
   { icon: FileText, label: 'Audit Logs', href: '/audit-logs' },
   { icon: FileText, label: 'Status Reports', href: '/status-reports' },
   { icon: Users, label: 'Resource Allocations', href: '/resource-allocations' },

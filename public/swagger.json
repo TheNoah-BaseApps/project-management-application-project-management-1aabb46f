@@ -377,6 +377,226 @@
         }
       }
     },
+    "/api/project-milestones/{id}": {
+      "get": {
+        "summary": "Get milestone by ID",
+        "tags": [
+          "Project Milestones"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Milestone retrieved successfully"
+          },
+          "404": {
+            "description": "Milestone not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update milestone",
+        "tags": [
+          "Project Milestones"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Milestone updated successfully"
+          },
+          "404": {
+            "description": "Milestone not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete milestone",
+        "tags": [
+          "Project Milestones"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Milestone deleted successfully"
+          },
+          "404": {
+            "description": "Milestone not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/project-milestones": {
+      "get": {
+        "summary": "Get all project milestones",
+        "description": "Retrieve all project timeline milestones with optional filtering",
+        "tags": [
+          "Project Milestones"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "project_id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by project ID"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by status (Planned, In Progress, Completed, Delayed)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of milestones retrieved successfully"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new project milestone",
+        "description": "Add a new milestone to project timeline",
+        "tags": [
+          "Project Milestones"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "project_id",
+                  "milestone_name",
+                  "planned_date",
+                  "status",
+                  "owner"
+                ],
+                "properties": {
+                  "project_id": {
+                    "type": "string"
+                  },
+                  "milestone_name": {
+                    "type": "string"
+                  },
+                  "planned_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "actual_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Planned",
+                      "In Progress",
+                      "Completed",
+                      "Delayed"
+                    ]
+                  },
+                  "predecessor_milestones": {
+                    "type": "string"
+                  },
+                  "successor_milestones": {
+                    "type": "string"
+                  },
+                  "acceptance_criteria": {
+                    "type": "string"
+                  },
+                  "owner": {
+                    "type": "string"
+                  },
+                  "delay_reason": {
+                    "type": "string"
+                  },
+                  "baseline_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "revised_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "completion_evidence": {
+                    "type": "string"
+                  },
+                  "impact_assessment": {
+                    "type": "string"
+                  },
+                  "celebration_plan": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Milestone created successfully"
+          },
+          "400": {
+            "description": "Invalid request data"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
     "/api/project-plans/{id}": {
       "patch": {
         "summary": "Update project plan",
@@ -1121,6 +1341,230 @@
           },
           "400": {
             "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/wbs-elements/{id}": {
+      "get": {
+        "summary": "Get WBS element by ID",
+        "tags": [
+          "WBS Elements"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "WBS element retrieved successfully"
+          },
+          "404": {
+            "description": "WBS element not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update WBS element",
+        "tags": [
+          "WBS Elements"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "WBS element updated successfully"
+          },
+          "404": {
+            "description": "WBS element not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete WBS element",
+        "tags": [
+          "WBS Elements"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "WBS element deleted successfully"
+          },
+          "404": {
+            "description": "WBS element not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/wbs-elements": {
+      "get": {
+        "summary": "Get all WBS elements",
+        "description": "Retrieve all work breakdown structure elements with optional filtering",
+        "tags": [
+          "WBS Elements"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "project_id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by project ID"
+          },
+          {
+            "in": "query",
+            "name": "level",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter by WBS level"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of WBS elements retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new WBS element",
+        "description": "Add a new work breakdown structure element",
+        "tags": [
+          "WBS Elements"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "project_id",
+                  "wbs_code",
+                  "element_name",
+                  "level",
+                  "responsible_party"
+                ],
+                "properties": {
+                  "project_id": {
+                    "type": "string"
+                  },
+                  "wbs_code": {
+                    "type": "string"
+                  },
+                  "element_name": {
+                    "type": "string"
+                  },
+                  "level": {
+                    "type": "integer"
+                  },
+                  "parent_element": {
+                    "type": "string"
+                  },
+                  "responsible_party": {
+                    "type": "string"
+                  },
+                  "estimated_effort": {
+                    "type": "integer"
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "completion_percentage": {
+                    "type": "integer"
+                  },
+                  "dependencies": {
+                    "type": "string"
+                  },
+                  "deliverables": {
+                    "type": "string"
+                  },
+                  "wbs_version": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "WBS element created successfully"
+          },
+          "400": {
+            "description": "Invalid request data"
           },
           "500": {
             "description": "Server error"
