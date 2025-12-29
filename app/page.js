@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart3, CheckCircle, DollarSign, FolderKanban, FileText, Users, Network, Flag, FolderPlus, MessageSquare, Zap } from 'lucide-react';
+import { BarChart3, CheckCircle, DollarSign, FolderKanban, FileText, Users, Network, Flag, FolderPlus, MessageSquare, Zap, AlertCircle, FileEdit } from 'lucide-react';
 
 export default function HomePage() {
   const router = useRouter();
@@ -194,6 +194,26 @@ export default function HomePage() {
                 <CardTitle>Agile Sprint Planning</CardTitle>
                 <CardDescription>
                   Track sprint planning, velocity, and daily scrum execution
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <AlertCircle className="h-10 w-10 text-red-600 mb-2" />
+                <CardTitle>Issue & Escalation Management</CardTitle>
+                <CardDescription>
+                  Track and manage project issues with escalation workflows
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <FileEdit className="h-10 w-10 text-indigo-600 mb-2" />
+                <CardTitle>Change Request Management</CardTitle>
+                <CardDescription>
+                  Manage change requests and approval workflows
                 </CardDescription>
               </CardHeader>
             </Card>

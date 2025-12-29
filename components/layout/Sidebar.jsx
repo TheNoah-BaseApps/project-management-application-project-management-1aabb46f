@@ -18,6 +18,8 @@ import {
   FolderPlus,
   MessageSquare,
   Zap,
+  AlertCircle,
+  FileEdit,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -36,6 +38,8 @@ const menuItems = [
   { icon: FolderPlus, label: 'Project Initiations', href: '/project-initiations' },
   { icon: MessageSquare, label: 'Communication Plans', href: '/communication-plans' },
   { icon: Zap, label: 'Agile Sprints', href: '/agile-sprints' },
+  { icon: AlertCircle, label: 'Issues & Escalations', href: '/issues' },
+  { icon: FileEdit, label: 'Change Requests', href: '/change-requests' },
 ];
 
 export default function Sidebar() {

@@ -532,6 +532,262 @@
         }
       }
     },
+    "/api/change-requests/{id}": {
+      "get": {
+        "summary": "Get change request by ID",
+        "description": "Retrieve a single change request by its ID",
+        "tags": [
+          "Change Request Management"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Change request ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Change request not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update change request",
+        "description": "Update an existing change request",
+        "tags": [
+          "Change Request Management"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Change request updated successfully"
+          },
+          "404": {
+            "description": "Change request not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete change request",
+        "description": "Delete a change request by ID",
+        "tags": [
+          "Change Request Management"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Change request deleted successfully"
+          },
+          "404": {
+            "description": "Change request not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/change-requests": {
+      "get": {
+        "summary": "Get all change requests",
+        "description": "Retrieve all change requests with optional filtering and pagination",
+        "tags": [
+          "Change Request Management"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by status"
+          },
+          {
+            "in": "query",
+            "name": "priority",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by priority"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 100
+            },
+            "description": "Maximum number of records to return"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Number of records to skip"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new change request",
+        "description": "Create a new change request record",
+        "tags": [
+          "Change Request Management"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "change_request_id",
+                  "request_date",
+                  "requested_by",
+                  "change_type",
+                  "description",
+                  "priority",
+                  "status"
+                ],
+                "properties": {
+                  "change_request_id": {
+                    "type": "string"
+                  },
+                  "request_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "requested_by": {
+                    "type": "string"
+                  },
+                  "change_type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "impact_analysis": {
+                    "type": "string"
+                  },
+                  "priority": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "approval_decision": {
+                    "type": "string"
+                  },
+                  "approved_by": {
+                    "type": "string"
+                  },
+                  "approval_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "implementation_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "related_documents": {
+                    "type": "string"
+                  },
+                  "baseline_updates_required": {
+                    "type": "string"
+                  },
+                  "change_board_review_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Change request created successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
     "/api/communication-plans/{id}": {
       "get": {
         "summary": "Get a communication plan by ID",
@@ -875,6 +1131,261 @@
           },
           "400": {
             "description": "Invalid request data"
+          }
+        }
+      }
+    },
+    "/api/issues/{id}": {
+      "get": {
+        "summary": "Get issue by ID",
+        "description": "Retrieve a single issue by its ID",
+        "tags": [
+          "Issue and Escalation Management"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Issue ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Issue not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update issue",
+        "description": "Update an existing issue",
+        "tags": [
+          "Issue and Escalation Management"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Issue updated successfully"
+          },
+          "404": {
+            "description": "Issue not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete issue",
+        "description": "Delete an issue by ID",
+        "tags": [
+          "Issue and Escalation Management"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Issue deleted successfully"
+          },
+          "404": {
+            "description": "Issue not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/issues": {
+      "get": {
+        "summary": "Get all issues",
+        "description": "Retrieve all issues with optional filtering and pagination",
+        "tags": [
+          "Issue and Escalation Management"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by status"
+          },
+          {
+            "in": "query",
+            "name": "priority",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by priority"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 100
+            },
+            "description": "Maximum number of records to return"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Number of records to skip"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new issue",
+        "description": "Create a new issue record",
+        "tags": [
+          "Issue and Escalation Management"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "issue_id",
+                  "issue_description",
+                  "date_raised",
+                  "raised_by",
+                  "priority",
+                  "severity",
+                  "current_owner",
+                  "status"
+                ],
+                "properties": {
+                  "issue_id": {
+                    "type": "string"
+                  },
+                  "issue_description": {
+                    "type": "string"
+                  },
+                  "date_raised": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "raised_by": {
+                    "type": "string"
+                  },
+                  "priority": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string"
+                  },
+                  "current_owner": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "root_cause": {
+                    "type": "string"
+                  },
+                  "resolution": {
+                    "type": "string"
+                  },
+                  "resolution_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "escalation_level": {
+                    "type": "string"
+                  },
+                  "escalation_path": {
+                    "type": "string"
+                  },
+                  "related_risks": {
+                    "type": "string"
+                  },
+                  "lessons_learned": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Issue created successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
